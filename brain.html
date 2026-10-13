@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BANC Connectome — Fly Brain Lab</title>
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <!-- Loading -->
+  <div id="loading">
+    <div class="loading-inner">
+      <h1>BANC Connectome</h1>
+      <div class="loading-bar"><div id="loading-fill"></div></div>
+      <div id="loading-text">Initializing...</div>
+    </div>
+  </div>
+
+  <!-- Full-screen 3D CNS -->
+  <div id="brain-full">
+    <div id="brain-label">Drosophila CNS · BANC v888 · ~188K real neuron positions · real neuropil boundaries</div>
+    <div id="live-stats">Connecting to live fly…</div>
+    <div id="zoom-hint">Scroll to deep-zoom · drag to rotate · click a neuron for its BANC annotation</div>
+    <div id="brain-info" class="card">
+      <div class="info-title"></div>
+      <div class="info-text"></div>
+    </div>
+    <div id="provenance">BANC v888 · Bates, Phelps, Kim, Yang et al. 2026, <i>Nature</i> · doi:10.1038/s41586-026-10735-w · all data real: positions, neuropils, connectivity, morphology, locomotion</div>
+    <div id="brain-filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="optic_lobe">Optic Lobe</button>
+      <button class="filter-btn" data-filter="central_brain">Central Brain</button>
+      <button class="filter-btn" data-filter="mushroom_body">Mushroom Body</button>
+      <button class="filter-btn" data-filter="antennal_lobe">Antennal Lobe</button>
+      <button class="filter-btn" data-filter="suboesophageal_zone">SEZ</button>
+      <button class="filter-btn" data-filter="cervical_connective">Neck</button>
+      <button class="filter-btn" data-filter="ventral_nerve_cord">VNC</button>
+    </div>
+  </div>
+
+  <!-- Inspector tooltip -->
+  <div id="inspector" class="hidden"></div>
+
+  <script type="module" src="/src/brain_view.ts"></script>
+</body>
+</html>
