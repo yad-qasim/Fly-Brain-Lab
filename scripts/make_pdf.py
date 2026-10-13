@@ -230,6 +230,39 @@ def build():
         size=9.5,
     )
 
+    # ---------- 3b. Methodology ----------
+    doc.add_page()
+    doc.h1("3b. Scientific Methodology")
+    doc.h2("Source data & materialization")
+    doc.p(
+        "Pipeline consumes the BANC v888 materialization (snapshot 2026-04-17) "
+        "- the fixed, DOI-citable release of the Nature publication - from the "
+        "consortium's public GCS bucket:",
+        size=9.5,
+    )
+    doc.mono(
+        "banc_888_meta.feather              188,508 cells x 81 annotation cols\n"
+        "banc_888_edgelist_simple_v3        13,620,865 connections (>=10 voxels)\n"
+        "banc_888_metrics.feather           per-cell morphometrics\n"
+        "banc_banc_space_split_swc/*.swc    proofread skeletons (lazy fetch)\n"
+        "behavior/BANC_fly_behavior/        real BANCr Y-maze locomotion"
+    )
+    doc.h2("Network reduction")
+    doc.p(
+        "One representative node per annotated cell type (11,497 types) at the "
+        "true soma centroid; hemisphere & majority neuropil from member cells. "
+        "Glia/trachea/non-neuron rows (~13K) excluded from neurons and network. "
+        "All meta rows and all cell-type pairs are preserved losslessly in the "
+        "exported artifacts.",
+        size=9.5,
+    )
+    doc.h2("Validation performed")
+    doc.li("Hemisphere sign verified vs 'side' column (left = +x) - fixed an inversion")
+    doc.li("Region envelopes cross-checked vs per-root_region counts")
+    doc.li("Full counts preserved end-to-end (188,508 rows; 2,819,440 pairs)")
+    doc.li("19,193 missing-position rows excluded, not fabricated")
+    doc.li("Binary container round-trips all four pair statistics")
+
     # ---------- 4. Mathematics ----------
     doc.h1("4. The Mathematics")
     doc.h2("4.1 Coordinate normalization")
@@ -360,18 +393,64 @@ def build():
         "public/data (~135 MB) is copied into dist and served statically."
     )
 
+    # ---------- 8b. Glossary ----------
+    doc.h1("8b. Glossary")
+    doc.table(
+        ["Term", "Meaning"],
+        [
+            ["Connectome", "Complete map of neurons and their synaptic connections"],
+            ["Materialization", "Fixed queryable snapshot of EM segmentation + annotations"],
+            ["Neuropil", "Named synaptic region (medulla, MB calyx...) - our wireframe unit"],
+            ["Neuromere", "Segmental VNC unit (T1-T3 thoracic, A1-A10 abdominal)"],
+            ["Soma", "Cell body - the dots rendered are real soma positions"],
+            ["root_region", "Ito-atlas neuropil code annotating each cell's dendritic home"],
+            ["super_class / cell_class / cell_type", "Coarse->fine BANC annotation hierarchy"],
+            ["Hemilineage", "Developmental origin class (paired with NT identity)"],
+            ["KC / MBON / DAN", "Kenyon cell - MB output neuron - dopaminergic neuron"],
+            ["LIF", "Leaky integrate-and-fire - the spiking model used"],
+            ["GluCl", "Glutamate-gated Cl channel - why fly glutamate inhibits"],
+            ["NBLAST", "Morphological similarity metric used for cell typing"],
+            ["DN / AN", "Descending / ascending neuron - brain<->cord tracts"],
+        ],
+        widths=[55, 120],
+    )
+
     # ---------- 9. References ----------
     doc.h1("9. References & Links")
     for s in [
-        "Bates, Phelps, Kim, Yang et al. 2026, Nature - doi:10.1038/s41586-026-10735-w",
-        "BANC v888 snapshot - doi:10.7910/DVN/7WTH1N",
-        "banc.community - ng.banc.community/view - codex.flywire.ai",
-        "Ito et al. 2014 Neuron 81 - neuropil nomenclature (root_region codes)",
-        "FlyWire brain connectome - Dorkenwald et al. 2024 Nature",
-        "MANC VNC connectome - Marin et al. / Takemura et al. 2024 Nature",
-        "Hemibrain - Scheffer et al. 2020 eLife - neuprint.janelia.org",
-        "Virtual Fly Brain - virtualflybrain.org",
-        "natverse / navis SWC tooling - natverse.org",
+        "[1] Bates AS, Phelps JS, Kim SM, Yang HH, et al. 2026, Nature.",
+        "     Distributed control circuits across a brain-and-cord connectome.",
+        "     doi:10.1038/s41586-026-10735-w",
+        "[2] BANC v888 materialization (2026-04-17), Harvard Dataverse.",
+        "     doi:10.7910/DVN/7WTH1N",
+        "[3] BANC public bucket: gs://lee-lab_brain-and-nerve-cord-fly-connectome;",
+        "     banc.community - ng.banc.community/view - codex.flywire.ai",
+        "[4] Ito K, et al. 2014, Neuron 81:755-765. Systematic nomenclature",
+        "     for the insect brain (root_region ITO_* codes).",
+        "     doi:10.1016/j.neuron.2013.12.017",
+        "[5] Eckstein N, et al. 2024, Cell 187. NT classification from EM",
+        "     images at synaptic sites (the 8-class predictions).",
+        "     doi:10.1016/j.cell.2024.03.016",
+        "[6] Costa M, et al. 2016, Neuron 90. NBLAST morphology typing.",
+        "     doi:10.1016/j.neuron.2016.06.012",
+        "[7] Bates AS, Manton JD, et al. 2020, eLife 9:e53350. natverse.",
+        "     doi:10.7554/eLife.53350",
+        "[8] Gerstner W, Kistler WM. 2002. Spiking Neuron Models (LIF).",
+        "[9] Plaza SM. 2022, Nature Methods 19. neuPrint. doi:10.1038/s41592-021-01394-y",
+        "[10] Dorkenwald S, et al. 2024, Nature 634. FlyWire brain.",
+        "     doi:10.1038/s41586-024-05810-y",
+        "[11] Marin EC, et al. 2024, Nature 634. MANC VNC connectome.",
+        "     doi:10.1038/s41586-024-07266-x",
+        "[12] Scheffer LK, et al. 2020, eLife 9:e57443. Hemibrain.",
+        "     doi:10.7554/eLife.57443",
+        "[13] Court R, et al. 2020. VFB VNC atlas (COURT_vnc_* codes).",
+        "     virtualflybrain.org",
+        "[14] Milyaev N, et al. 2012, Bioinformatics 28. Virtual Fly Brain.",
+        "     doi:10.1093/bioinformatics/bts677",
+        "[15] Aso Y, et al. 2014, eLife 3:e04577. MB architecture for",
+        "     associative learning. doi:10.7554/eLife.04577",
+        "[16] Handler A, et al. 2019, Cell 179. Dopamine pathways in",
+        "     associative learning. doi:10.1016/j.cell.2019.10.024",
     ]:
         doc.li(s)
     doc.ln(8)
